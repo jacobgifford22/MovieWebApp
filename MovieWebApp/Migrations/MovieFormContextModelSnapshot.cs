@@ -15,15 +15,60 @@ namespace MovieWebApp.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.22");
 
+            modelBuilder.Entity("MovieWebApp.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "Action/Adventure"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryName = "Comedy"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            CategoryName = "Drama"
+                        },
+                        new
+                        {
+                            CategoryId = 4,
+                            CategoryName = "Family"
+                        },
+                        new
+                        {
+                            CategoryId = 5,
+                            CategoryName = "Horror/Suspense"
+                        },
+                        new
+                        {
+                            CategoryId = 6,
+                            CategoryName = "Miscellaneous"
+                        });
+                });
+
             modelBuilder.Entity("MovieWebApp.Models.MovieForm", b =>
                 {
                     b.Property<int>("MovieId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Director")
                         .IsRequired()
@@ -52,13 +97,15 @@ namespace MovieWebApp.Migrations
 
                     b.HasKey("MovieId");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Movies");
 
                     b.HasData(
                         new
                         {
                             MovieId = 1,
-                            Category = "Action/Adventure",
+                            CategoryId = 1,
                             Director = "Christopher Nolan",
                             Edited = false,
                             LentTo = "Bob",
@@ -69,7 +116,7 @@ namespace MovieWebApp.Migrations
                         new
                         {
                             MovieId = 2,
-                            Category = "Family",
+                            CategoryId = 4,
                             Director = "Jon Favreau",
                             Edited = false,
                             Rating = "PG",
@@ -79,13 +126,22 @@ namespace MovieWebApp.Migrations
                         new
                         {
                             MovieId = 3,
-                            Category = "Drama",
+                            CategoryId = 3,
                             Director = "Taika Waititi",
                             Edited = false,
                             Rating = "PG-13",
                             Title = "Jojo Rabbit",
                             Year = (ushort)2019
                         });
+                });
+
+            modelBuilder.Entity("MovieWebApp.Models.MovieForm", b =>
+                {
+                    b.HasOne("MovieWebApp.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

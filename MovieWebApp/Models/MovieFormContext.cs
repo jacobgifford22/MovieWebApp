@@ -15,15 +15,26 @@ namespace MovieWebApp.Models
         }
 
         public DbSet<MovieForm> Movies { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
+        // Seed data
         protected override void OnModelCreating(ModelBuilder mb)
         {
+            mb.Entity<Category>().HasData(
+                new Category { CategoryId = 1, CategoryName = "Action/Adventure" },
+                new Category { CategoryId = 2, CategoryName = "Comedy" },
+                new Category { CategoryId = 3, CategoryName = "Drama" },
+                new Category { CategoryId = 4, CategoryName = "Family" },
+                new Category { CategoryId = 5, CategoryName = "Horror/Suspense" },
+                new Category { CategoryId = 6, CategoryName = "Miscellaneous" }
+            );
+
             mb.Entity<MovieForm>().HasData(
 
                 new MovieForm
                 {
                     MovieId = 1,
-                    Category = "Action/Adventure",
+                    CategoryId = 1,
                     Title = "Dark Knight, The",
                     Year = 2008,
                     Director = "Christopher Nolan",
@@ -35,7 +46,7 @@ namespace MovieWebApp.Models
                 new MovieForm
                 {
                     MovieId = 2,
-                    Category = "Family",
+                    CategoryId = 4,
                     Title = "Elf",
                     Year = 2003,
                     Director = "Jon Favreau",
@@ -47,7 +58,7 @@ namespace MovieWebApp.Models
                 new MovieForm
                 {
                     MovieId = 3,
-                    Category = "Drama",
+                    CategoryId = 3,
                     Title = "Jojo Rabbit",
                     Year = 2019,
                     Director = "Taika Waititi",
